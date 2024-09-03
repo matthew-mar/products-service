@@ -5,10 +5,13 @@
     "fastify": "^4.28.1"
   },
   "scripts": {
-    "start": "node server"
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/server.js"
   },
   "devDependencies": {
-    "prisma": "^5.19.1"
+    "@types/node": "^22.5.2",
+    "prisma": "^5.19.1",
+    "typescript": "^5.5.4"
   },
-  "type": "module"
+  "type": "commonjs"
 }

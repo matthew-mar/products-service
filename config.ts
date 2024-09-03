@@ -2,6 +2,6 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const port = process.env.PORT;
+const port: number = Number(process.env.PORT);
 
 export { port };
