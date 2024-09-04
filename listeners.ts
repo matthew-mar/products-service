@@ -1,10 +1,12 @@
 import { EventEmitter } from "stream";
 import { ProductCreatedData } from "./events/product/created.event";
+import { StockLevelCreatedData } from "./events/stock-level/created.event";
 
 const eventEmitter = new EventEmitter();
 
 export type Event = (
-    "product.created"
+    "product.created" |
+    "stock-level.created"
 )
 
 export function emitEvent(eventName: Event, ...args: any) {
@@ -17,4 +19,8 @@ const listen = (eventName: Event, callback: (...args: any[]) => void) => {
 
 listen("product.created", (data: ProductCreatedData) => {
     console.log(`created product with plu ${data.plu}`);
-})
+});
+
+listen("stock-level.created", (data: StockLevelCreatedData) => {
+    console.log(`created stock-level with id ${data.id}`);
+});
