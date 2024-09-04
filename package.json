@@ -1,6 +1,8 @@
 {
   "dependencies": {
+    "@fastify/awilix": "^5.1.0",
     "@prisma/client": "^5.19.1",
+    "awilix": "^11.0.0",
     "dotenv": "^16.4.5",
     "fastify": "^4.28.1"
   },

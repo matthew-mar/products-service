@@ -1,18 +1,7 @@
-import Fastify from "fastify";
-import { port } from "./config.js";
+import { app } from "./app";
+import { port } from "./config";
 
-const fastify = Fastify({
-    logger: true
-});
-
-fastify.get("/", async (request, reply) => {
-    return {
-        "message": "test",
-        "status": 200,
-    }
-});
-
-fastify.listen({ port: port, host: "0.0.0.0" }, (err, address) => {
+app.listen({ port: port, host: "0.0.0.0" }, (err, address) => {
     if (err) {
         console.error(err);
         return;
