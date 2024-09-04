@@ -13,18 +13,11 @@ model Product {
   StockLevel StockLevel[]
 }
 
-model Shop {
-  id         Int          @id @default(autoincrement())
-  name       String
-  StockLevel StockLevel[]
-}
-
 model StockLevel {
   id            Int     @id @default(autoincrement())
   shopId        Int
-  plu           Int
+  plu           Int     @unique()
   shelvesAmount Int     @default(0)
   ordersAmount  Int     @default(0)
   Product       Product @relation(fields: [plu], references: [plu])
-  Shop          Shop    @relation(fields: [shopId], references: [id])
 }
