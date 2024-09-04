@@ -6,8 +6,9 @@ const eventEmitter = new EventEmitter();
 
 export type Event = (
     "product.created" |
-    "stock-level.created"
-)
+    "stock-level.created" |
+    "stock-level.increased"
+);
 
 export function emitEvent(eventName: Event, ...args: any) {
     eventEmitter.emit(eventName, ...args);

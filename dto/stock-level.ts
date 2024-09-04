@@ -5,3 +5,8 @@ export type StockLevel = {
     shelvesAmount: number;
     ordersAmount: number;
 };
+
+export enum ChangeField {
+    shelvesAmount = "shelves",
+    ordersAmount = "orders",
+};
