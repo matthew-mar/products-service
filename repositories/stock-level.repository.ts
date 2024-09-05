@@ -1,10 +1,27 @@
 import { BaseRepository } from "./base.repository";
 import { ChangeField, StockLevel } from "../dto/stock-level";
+import { FailedFind } from "../exceptions/stock-level/failed-find";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { IStockLevelRepository } from "../contracts/repositories/stock-level.repository";
-import { FailedUpdateException } from "../exceptions/internal/stock-level/failed-update.exception";
+import { FailedUpdateException } from "../exceptions/stock-level/failed-update.exception";
 
 export class StockLevelRepository extends BaseRepository implements IStockLevelRepository {
+    public async getById(id: number): Promise<StockLevel> {
+        try {
+            return await this.prisma.stockLevel.findUniqueOrThrow({
+                where: {
+                    id: id,
+                }
+            });
+        } catch (error) {
+            let message: string | undefined;
+            if (error instanceof PrismaClientKnownRequestError) {
+                message = error.message;    
+            }
+            throw new FailedFind(id, message);
+        }
+    }
+
     public async decrementByFieldAndId(id: number, field: ChangeField): Promise<StockLevel> {
         let toFind = field == ChangeField.shelvesAmount
             ? {
@@ -32,14 +49,10 @@ export class StockLevelRepository extends BaseRepository implements IStockLevelR
             });
             return stockLevel;
         } catch (error) {
-            let internalMessage: string | undefined;
             if (error instanceof PrismaClientKnownRequestError) {
-                internalMessage = error.message;
+                console.error(error.message);
             }
-            throw new FailedUpdateException(
-                `failed decrease field ${field} for stock-level ${id}`,
-                internalMessage
-            );
+            throw new FailedUpdateException(`failed decrease ${field}`);
         }
     }
 
