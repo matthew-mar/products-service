@@ -1,12 +1,27 @@
 import { emitEvent } from "../listeners";
 import { ChangeField, StockLevel } from "../dto/stock-level";
+import { FailedFind } from "../exceptions/stock-level/failed-find";
 import { IStockLevelService } from "../contracts/services/stock-level.service";
+import { FailedGetException } from "../exceptions/stock-level/failed-get.excpetion";
 import { IStockLevelRepository } from "../contracts/repositories/stock-level.repository";
-import { FailedUpdateException } from "../exceptions/internal/stock-level/failed-update.exception";
-import { FailedDecreaseExcpetion } from "../exceptions/internal/stock-level/failed-decrease.exception";
+import { FailedUpdateException } from "../exceptions/stock-level/failed-update.exception";
+import { FailedDecreaseExcpetion } from "../exceptions/stock-level/failed-decrease.exception";
 
 export class StockLevelService implements IStockLevelService {
     constructor(private stockLevelRep: IStockLevelRepository) {}
+    
+    public async getById(id: number): Promise<StockLevel> {
+        try {
+            return await this.stockLevelRep.getById(id);
+        } catch (error) {
+            console.error(error);
+            let message: string | undefined;
+            if (error instanceof FailedFind) {
+                message = error.info;
+            }
+            throw new FailedGetException(id, message);
+        }
+    }
     
     public async decrementByFieldAndId(id: number, field: ChangeField): Promise<StockLevel> {
         try {
@@ -23,10 +38,9 @@ export class StockLevelService implements IStockLevelService {
         } catch (error) {
             let errorMessage: string | undefined;
             if (error instanceof FailedUpdateException) {
-                console.error(error.internalMessage);
                 errorMessage = error.message;
             }
-            throw new FailedDecreaseExcpetion(errorMessage);
+            throw new FailedDecreaseExcpetion(id, field);
         }
 
     }

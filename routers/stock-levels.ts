@@ -1,6 +1,7 @@
 import { FastifyInstance } from "fastify";
+import { stockLevelCreateOptions } from "../schemas/stock-level/create.schema";
+import { stockLevelChangeOptions } from "../schemas/stock-level/change.schema";
 import { create, decrease, increase } from "../controllers/stock-level/mutations";
-import { stockLevelChangeOptions, stockLevelCreateOptions } from "../schemas/stock-level/create.schema";
 
 export const router = async (app: FastifyInstance, options: any, done: any) => {
     app.post("/stock-levels", {schema: stockLevelCreateOptions.schema}, create);

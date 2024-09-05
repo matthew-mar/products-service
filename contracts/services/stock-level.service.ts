@@ -6,4 +6,6 @@ export interface IStockLevelService {
     incrementByFieldAndId(id: number, field: ChangeField): Promise<StockLevel>;
 
     decrementByFieldAndId(id: number, field: ChangeField): Promise<StockLevel>;
+
+    getById(id: number): Promise<StockLevel>;
 }

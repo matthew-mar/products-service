@@ -1,11 +1,11 @@
 import { StockLevel } from "../../dto/stock-level";
 
-export type StockLevelCreateResponseSchema = StockLevel;
+export type StockLevelResponseSchema = StockLevel;
 
 export class StockLevelCreateResponse {
     constructor(private stockLevel: StockLevel) {}
 
-    public get json(): StockLevelCreateResponseSchema {
+    public get json(): StockLevelResponseSchema {
         return this.stockLevel;
     }
 }

@@ -1,29 +1,19 @@
 import { RouteShorthandOptions } from "fastify";
 
-export const stockLevelCreateOptions: RouteShorthandOptions = {
+export const stockLevelChangeOptions: RouteShorthandOptions = {
     schema: {
+        params: {
+            id: {
+                type: "integer",
+            },
+        },
         body: {
             type: "object",
-            required: [
-                "shopId",
-                "plu",
-            ],
+            required: ["changeField"],
             properties: {
-                shopId: {
-                    type: "integer",
-                    minimum: 1,
-                },
-                plu: {
-                    type: "integer",
-                    minimum: 1,
-                },
-                shelvesAmount: {
-                    type: "integer",
-                    minimum: 0,
-                },
-                ordersAmount: {
-                    type: "integer",
-                    minimum: 0,
+                changeField: {
+                    type: "string",
+                    enum: ["shelves", "orders"],
                 },
             },
         },
@@ -45,6 +35,17 @@ export const stockLevelCreateOptions: RouteShorthandOptions = {
                     },
                     ordersAmount: {
                         type: "integer",
+                    },
+                },
+            },
+            404: {
+                type: "object",
+                properties: {
+                    error: {
+                        type: "string",
+                    },
+                    detail: {
+                        type: "string",
                     },
                 },
             },
