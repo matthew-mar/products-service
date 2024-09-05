@@ -51,3 +51,40 @@ export const stockLevelCreateOptions: RouteShorthandOptions = {
         },
     },
 };
+
+export const stockLevelChangeOptions: RouteShorthandOptions = {
+    schema: {
+        body: {
+            type: "object",
+            required: ["changeField"],
+            properties: {
+                changeField: {
+                    type: "string",
+                    enum: ["shelves", "orders"],
+                },
+            },
+        },
+        response: {
+            200: {
+                type: "object",
+                properties: {
+                    id: {
+                        type: "integer",
+                    },
+                    shopId: {
+                        type: "integer",
+                    },
+                    plu: {
+                        type: "integer",
+                    },
+                    shelvesAmount: {
+                        type: "integer",
+                    },
+                    ordersAmount: {
+                        type: "integer",
+                    },
+                },
+            },
+        },
+    },
+};
