@@ -16,8 +16,10 @@ model Product {
 model StockLevel {
   id            Int     @id @default(autoincrement())
   shopId        Int
-  plu           Int     @unique()
+  plu           Int     
   shelvesAmount Int     @default(0)
   ordersAmount  Int     @default(0)
   Product       Product @relation(fields: [plu], references: [plu])
+
+  @@unique([shopId, plu])
 }
