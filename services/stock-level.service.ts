@@ -1,4 +1,5 @@
 import { emitEvent } from "../listeners";
+import { StockLevelFilter } from "../dto/stock-leve-filter";
 import { ChangeField, StockLevel } from "../dto/stock-level";
 import { FailedFind } from "../exceptions/stock-level/failed-find";
 import { IStockLevelService } from "../contracts/services/stock-level.service";
@@ -9,6 +10,22 @@ import { FailedDecreaseExcpetion } from "../exceptions/stock-level/failed-decrea
 
 export class StockLevelService implements IStockLevelService {
     constructor(private stockLevelRep: IStockLevelRepository) {}
+    
+    public async countWithFilters(filter: StockLevelFilter): Promise<number> {
+        return await this.stockLevelRep.countWithFilters(filter);
+    }
+    
+    public async paginateWithFilters(
+        page: number,
+        onPage: number,
+        filter: StockLevelFilter
+    ): Promise<Iterable<StockLevel>> {
+        return await this.stockLevelRep.paginateWithFilters(
+            (page - 1) * onPage,
+            onPage,
+            filter
+        );
+    }
     
     public async getById(id: number): Promise<StockLevel> {
         try {
