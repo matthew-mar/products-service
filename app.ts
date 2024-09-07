@@ -12,7 +12,6 @@ app.register(fastifyAwilixPlugin, {
     disposeOnResponse: true,
     strictBooleanEnforced: true
 })
-
 app.register(productsRouter);
 app.register(stockLevelRouter);
 

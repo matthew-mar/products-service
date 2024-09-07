@@ -7,12 +7,22 @@ import { FailedGetException } from "../exceptions/stock-level/failed-get.excpeti
 import { IStockLevelRepository } from "../contracts/repositories/stock-level.repository";
 import { FailedUpdateException } from "../exceptions/stock-level/failed-update.exception";
 import { FailedDecreaseExcpetion } from "../exceptions/stock-level/failed-decrease.exception";
+import { Resolver } from "../utils/resolver";
+import { CacheMaker } from "../utils/cache/stock-level/cache-maker";
 
 export class StockLevelService implements IStockLevelService {
     constructor(private stockLevelRep: IStockLevelRepository) {}
     
     public async countWithFilters(filter: StockLevelFilter): Promise<number> {
-        return await this.stockLevelRep.countWithFilters(filter);
+        let cacheKey = CacheMaker.countKey(filter);
+        let cached = await Resolver.cacheService.get(cacheKey);
+        if (cached) {
+            return Number(cached);
+        }
+
+        let count = await this.stockLevelRep.countWithFilters(filter);
+        Resolver.cacheService.save(cacheKey, cached);
+        return count;
     }
     
     public async paginateWithFilters(
@@ -20,11 +30,20 @@ export class StockLevelService implements IStockLevelService {
         onPage: number,
         filter: StockLevelFilter
     ): Promise<Iterable<StockLevel>> {
-        return await this.stockLevelRep.paginateWithFilters(
+        let cacheKey = CacheMaker.paginateCacheKey(page, onPage, filter);
+        let cached = await Resolver.cacheService.get(cacheKey);
+
+        if (cached) {
+            return JSON.parse(cached);
+        }
+
+        let stockLevels = await this.stockLevelRep.paginateWithFilters(
             (page - 1) * onPage,
             onPage,
             filter
         );
+        Resolver.cacheService.save(cacheKey, JSON.stringify(stockLevels));
+        return stockLevels;
     }
     
     public async getById(id: number): Promise<StockLevel> {
