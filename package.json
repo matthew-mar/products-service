@@ -1,17 +1,21 @@
 {
   "dependencies": {
     "@fastify/awilix": "^5.1.0",
+    "@fastify/caching": "^8.4.0",
     "@prisma/client": "^5.19.1",
+    "abstract-cache-redis": "^2.0.0",
     "awilix": "^11.0.0",
+    "crypto-js": "^4.2.0",
     "dotenv": "^16.4.5",
-    "fastify": "^4.28.1"
+    "fastify": "^4.28.1",
+    "ioredis": "^5.4.1"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "start": "node dist/server.js"
   },
   "devDependencies": {
-    "@types/node": "^22.5.2",
+    "@types/node": "^22.5.4",
     "prisma": "^5.19.1",
     "typescript": "^5.5.4"
   },

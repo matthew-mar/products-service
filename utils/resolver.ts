@@ -1,4 +1,5 @@
 import { resolve } from "../provider";
+import { ICacheService } from "../contracts/services/cache.service";
 import { IProductService } from "../contracts/services/product.service";
 import { IStockLevelService } from "../contracts/services/stock-level.service";
 import { IProductRepository } from "../contracts/repositories/product.repository";
@@ -19,5 +20,9 @@ export class Resolver {
 
     public static get stockLevelService(): IStockLevelService {
         return resolve("stockLevelService") as IStockLevelService;
+    }
+
+    public static get cacheService(): ICacheService {
+        return resolve("cacheService") as ICacheService;
     }
 }
