@@ -24,20 +24,24 @@ const listen = (eventName: Event, callback: (...args: any[]) => void) => {
 
 listen("product.created", async (data: ProductCreatedData) => {
     await Resolver.cacheService.clear();
+    await Resolver.eventPusher.push("product.created", data);
     console.log(`created product with plu ${data.plu}`);
 });
 
 listen("stock-level.created", async (data: StockLevelCreatedData) => {
     await Resolver.cacheService.clear();
+    await Resolver.eventPusher.push("stock-level.created", data);
     console.log(`created stock-level with id ${data.id}`);
 });
 
 listen("stock-level.increased", async (data: StockLevelIncreasedData) => {
     await Resolver.cacheService.clear();
+    await Resolver.eventPusher.push("stock-level.increased", data);
     console.log(`increased field ${data.field} of stock-level with id ${data.id}`);
 });
 
 listen("stock-level.decreased", async (data: StockLevelDecreasedData) => {
     await Resolver.cacheService.clear();
+    await Resolver.eventPusher.push("stock-level.decreased", data);
     console.log(`decreased field ${data.field} of stock-level with id ${data.id}`);
 });

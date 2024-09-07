@@ -100,6 +100,10 @@ export class StockLevelService implements IStockLevelService {
         if (newStockLevel.id) {
             emitEvent("stock-level.created", {
                 id: newStockLevel.id,
+                plu: newStockLevel.plu,
+                shopId: newStockLevel.shopId,
+                shelvesAmount: newStockLevel.shelvesAmount,
+                ordersAmount: newStockLevel.ordersAmount,
             });
         }
 
