@@ -67,6 +67,8 @@ export class StockLevelService implements IStockLevelService {
                 emitEvent("stock-level.decreased", {
                     id: stockLevel.id,
                     field: field,
+                    plu: stockLevel.plu,
+                    shopId: stockLevel.shopId,
                 });
             }
     
@@ -88,6 +90,8 @@ export class StockLevelService implements IStockLevelService {
             emitEvent("stock-level.increased", {
                 id: stockLevel.id,
                 field: field,
+                plu: stockLevel.plu,
+                shopId: stockLevel.shopId,
             });
         }
 
