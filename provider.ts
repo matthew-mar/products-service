@@ -17,6 +17,7 @@ import { StockLevelRepository } from "./repositories/stock-level.repository";
 import { IStockLevelService } from "./contracts/services/stock-level.service";
 import { IProductRepository } from "./contracts/repositories/product.repository";
 import { IStockLevelRepository } from "./contracts/repositories/stock-level.repository";
+import { kafkaConnect } from "./config";
 
 dotnev.config();
 
@@ -64,7 +65,7 @@ const containerProvider = {
 
     eventPusherService: asFunction((): IEventPusher => {
         const kafkaConfig: KafkaConfig = {
-            brokers: [String(process.env.KAFKA_CONNECTION)],
+            brokers: [kafkaConnect],
         };
         const kafka = new Kafka(kafkaConfig);
         const producer: Producer = kafka.producer();
